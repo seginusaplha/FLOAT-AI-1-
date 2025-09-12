@@ -1,53 +1,53 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { ErrorBoundary } from 'react-error-boundary';
 import './styles/globals.css';
 
-// Pages
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
-
 // Components
-import AuthGuard from './components/auth/AuthGuard';
+import AnimatedRoutes from './components/layout/AnimatedRoutes';
+
+// Error fallback component
+const ErrorFallback = ({ error, resetErrorBoundary }) => (
+  <div className="min-h-screen flex items-center justify-center bg-ocean-deep text-white p-4">
+    <div className="text-center">
+      <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
+      <p className="text-ocean-text mb-6">{error.message}</p>
+      <button 
+        onClick={resetErrorBoundary}
+        className="bg-ocean-accent text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-colors"
+      >
+        Try again
+      </button>
+    </div>
+  </div>
+);
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<LoginPage />} />
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => window.location.reload()}
+    >
+      <Router>
+        <div className="App">
+          <AnimatedRoutes />
           
-          {/* Protected Routes */}
-          <Route 
-            path="/dashboard" 
-            element={
-              <AuthGuard>
-                <DashboardPage />
-              </AuthGuard>
-            } 
+          {/* Global Toast Notifications */}
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: 'var(--ocean-mid)',
+                color: 'white',
+                border: '1px solid var(--ocean-light)',
+                backdropFilter: 'blur(10px)'
+              }
+            }}
           />
-          
-          {/* Redirect unknown routes to home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        
-        {/* Global Toast Notifications */}
-        <Toaster 
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: 'var(--ocean-mid)',
-              color: 'white',
-              border: '1px solid var(--ocean-light)'
-            }
-          }}
-        />
-      </div>
-    </Router>
+        </div>
+      </Router>
+    </ErrorBoundary>
   );
 }
 
