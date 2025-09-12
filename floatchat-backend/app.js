@@ -11,6 +11,9 @@ const logger = require('./src/config/logger');
 
 const app = express();
 
+// Trust proxy for rate limiting in Replit environment
+app.set('trust proxy', 1);
+
 // Connect to MongoDB
 connectDB();
 
