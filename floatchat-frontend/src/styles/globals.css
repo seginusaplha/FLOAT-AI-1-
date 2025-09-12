@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --ocean-deep: #0a192f;
+  --ocean-mid: #1e3a5f; 
+  --ocean-light: #3b82f6;
+  --ocean-accent: #06d6a0;
+  --ocean-text: #94a3b8;
+  --ocean-surface: rgba(30, 58, 95, 0.8);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--ocean-deep);
+  color: var(--ocean-text);
+  line-height: 1.6;
+}
+
+.ocean-gradient {
+  background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%);
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.ocean-wave-animation {
+  background: linear-gradient(-45deg, #0ea5e9, #0284c7, #0369a1, #075985);
+  background-size: 400% 400%;
+  animation: wave 15s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
