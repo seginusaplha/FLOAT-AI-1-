@@ -41,7 +41,6 @@ app.use(rateLimit);
 
 // API routes
 app.use('/', routes);
-console.log('Type of routes:', typeof routes);
 
 // Catch 404 and forward to error handler
 app.use('*', (req, res) => {
