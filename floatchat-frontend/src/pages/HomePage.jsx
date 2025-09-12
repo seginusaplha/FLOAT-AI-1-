@@ -10,7 +10,8 @@ import { ChevronDown, Waves, Zap, BarChart3 } from 'lucide-react';
 // Lazy load heavy components for performance
 const OceanScene = lazy(() => import('../components/visualizations/OceanScene'));
 const ParticlesLayer = lazy(() => import('../components/visualizations/ParticlesLayer'));
-const OceanImageLayer = lazy(() => import('../components/visualizations/OceanImageLayer'));
+const EnhancedOceanImages = lazy(() => import('../components/visualizations/EnhancedOceanImages'));
+import SimpleFallback from '../components/visualizations/SimpleFallback';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -20,49 +21,23 @@ const HomePage = () => {
   const buttonsRef = useRef();
   const prefersReducedMotion = useReducedMotion();
   
-  const { animateIn, typeWriter } = useGSAPTimeline(heroRef);
-
   useEffect(() => {
     if (!prefersReducedMotion) {
       // Initial hero animation
-      const tl = gsap.timeline({ delay: 0.5 });
+      gsap.fromTo(titleRef.current, 
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', delay: 0.5 }
+      );
       
-      // Animate title with split text effect
-      if (titleRef.current) {
-        const titleChars = titleRef.current.innerText.split('');
-        titleRef.current.innerHTML = titleChars.map(char => 
-          char === ' ' ? ' ' : `<span class="inline-block">${char}</span>`
-        ).join('');
-        
-        gsap.fromTo(titleRef.current.querySelectorAll('span'), 
-          { 
-            opacity: 0, 
-            y: 100, 
-            rotationX: -90 
-          }, 
-          { 
-            opacity: 1, 
-            y: 0, 
-            rotationX: 0, 
-            duration: 1.2, 
-            stagger: 0.03,
-            ease: 'back.out(1.7)'
-          }
+      // Animate subtitle
+      if (subtitleRef.current) {
+        gsap.fromTo(subtitleRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 1, delay: 1.5 }
         );
       }
       
-      // Typewriter effect for subtitle
-      setTimeout(() => {
-        if (subtitleRef.current) {
-          typeWriter(
-            subtitleRef.current, 
-            'Explore the depths of ocean data with our AI-powered conversational interface',
-            30
-          );
-        }
-      }, 1500);
-      
-      // Animate buttons with magnetic hover effect
+      // Animate buttons
       if (buttonsRef.current) {
         gsap.fromTo(buttonsRef.current.children,
           { opacity: 0, scale: 0.8, y: 50 },
@@ -72,13 +47,13 @@ const HomePage = () => {
             y: 0, 
             duration: 1, 
             stagger: 0.2, 
-            delay: 3,
-            ease: 'elastic.out(1, 0.75)'
+            delay: 2,
+            ease: 'back.out(1.7)'
           }
         );
       }
     }
-  }, [prefersReducedMotion, typeWriter]);
+  }, [prefersReducedMotion]);
 
   const handleMouseMove = (e, element) => {
     if (prefersReducedMotion) return;
@@ -108,9 +83,9 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Dark Ocean Images Background */}
-      <Suspense fallback={<div className="absolute inset-0 bg-ocean-deep" />}>
-        <OceanImageLayer />
+      {/* Enhanced Dark Ocean Images Background */}
+      <Suspense fallback={<SimpleFallback />}>
+        <EnhancedOceanImages />
       </Suspense>
       
       {/* 3D Ocean Scene Background */}
@@ -148,12 +123,12 @@ const HomePage = () => {
             </div>
           </div>
           
-          {/* Subtitle with typewriter effect */}
+          {/* Subtitle */}
           <p 
             ref={subtitleRef}
             className="text-xl md:text-2xl text-blue-100 mb-16 leading-relaxed max-w-4xl mx-auto font-light"
           >
-            {/* Text will be filled by typewriter effect */}
+            Explore the depths of ocean data with our AI-powered conversational interface
           </p>
           
           {/* Action Buttons */}

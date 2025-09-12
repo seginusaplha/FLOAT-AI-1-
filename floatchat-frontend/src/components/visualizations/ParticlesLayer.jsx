@@ -57,6 +57,7 @@ const ParticlesLayer = () => {
     }
 
     // Animation loop
+    let animationId;
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
@@ -65,7 +66,7 @@ const ParticlesLayer = () => {
         particle.draw();
       });
 
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     };
 
     animate();
@@ -80,6 +81,9 @@ const ParticlesLayer = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
     };
   }, []);
 

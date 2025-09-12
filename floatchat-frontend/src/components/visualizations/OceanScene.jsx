@@ -2,8 +2,7 @@ import { Suspense, useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   OrbitControls, 
-  Environment, 
-  Fog,
+  Environment,
   useTexture,
   MeshReflectorMaterial 
 } from '@react-three/drei';
@@ -124,8 +123,8 @@ const OceanScene = () => {
           ))}
 
           {/* Environment and Controls */}
-          <Environment preset="ocean" />
-          <Fog attach="fog" args={['#0a192f', 10, 50]} />
+          <Environment preset="night" />
+          <fog attach="fog" args={['#0a192f', 10, 50]} />
           
           {/* Camera Controls */}
           <OrbitControls
