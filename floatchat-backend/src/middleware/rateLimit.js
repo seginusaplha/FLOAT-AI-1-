@@ -1,21 +1,4 @@
 const rateLimit = require('express-rate-limit');
-
-const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // limit each IP to 100 requests per windowMs
-  message: {
-    success: false,
-    error: 'Too many requests from this IP, please try again later.'
-  },
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  // Skip successful requests
-  skipSuccessfulRequests: false,
-  // Skip failed requests
-  skipFailedRequests: false,
-});
-
-module.exports = limiter;
 const constants = require('../utils/constants');
 
 // General rate limiter
@@ -58,8 +41,10 @@ const chatLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-module.exports = {
-  general: generalLimiter,
-  auth: authLimiter,
-  chat: chatLimiter
-};
+// Default export for general use in app.js
+module.exports = generalLimiter;
+
+// Named exports for specific use cases
+module.exports.general = generalLimiter;
+module.exports.auth = authLimiter;
+module.exports.chat = chatLimiter;
