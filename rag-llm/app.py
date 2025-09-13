@@ -5,6 +5,8 @@ from flask import Flask, request, jsonify
 from utils.data_utils import load_argo_data, load_papers
 from utils.rag_utils import build_faiss_index, ask_llm
 from utils.simulator import ask_chain_simulator
+from utils.config import LLM_MODEL
+import google.generativeai as genai
 # ---------------- INIT ----------------
 app = Flask(__name__)
 
@@ -67,6 +69,7 @@ def translate_query():
 
     # Ask LLM to create MongoDB query
     prompt = PROMPT_TEMPLATE + f"\n\nQuestion: {user_query}\nOutput:"
+    llm = genai.GenerativeModel(model_name=LLM_MODEL)
     response = llm.generate_content(prompt)
 
     mongo_query = response.text.strip() if response.text else "{}"
