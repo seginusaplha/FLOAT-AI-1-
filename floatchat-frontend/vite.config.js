@@ -9,6 +9,14 @@ export default defineConfig({
     host: '0.0.0.0',
     allowedHosts: true
   },
+  cacheDir: '/tmp/vite',
+  optimizeDeps: {
+    noDiscovery: true,
+    include: []
+  },
+  build: {
+    sourcemap: false
+  },
   define: {
     'process.env': {}
   }
