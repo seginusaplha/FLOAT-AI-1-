@@ -30,7 +30,7 @@ If the question is theoretical and does not require ARGO data, return "data_poin
 Always write “This response is generated with reference to ARGO observational data and research publications. It should not replace expert human judgment.”
 """
 
-def build_faiss_index(argo_docs, paper_docs, index_dir="backend/faiss_index"):
+def build_faiss_index(argo_docs, paper_docs, index_dir="faiss_index"):
     """Create FAISS vector store from ARGO + paper docs."""
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     split_paper_docs = splitter.split_documents(paper_docs)
