@@ -1,6 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+import daisyui from 'daisyui';
+import tailwindForms from '@tailwindcss/forms';
+
+export default {
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     extend: {
       colors: {
@@ -14,16 +20,19 @@ module.exports = {
           600: '#0284c7',
           700: '#0369a1',
           800: '#075985',
-          900: '#0c4a6e'
-        }
+          900: '#0c4a6e',
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif']
-      }
-    }
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+    },
   },
-  plugins: [require('daisyui'), require('@tailwindcss/forms')],
+  plugins: [
+    daisyui,
+    tailwindForms,
+  ],
   daisyui: {
-    themes: ['light', 'dark', 'ocean']
-  }
-}
+    themes: ['light', 'dark', 'ocean'],
+  },
+};
