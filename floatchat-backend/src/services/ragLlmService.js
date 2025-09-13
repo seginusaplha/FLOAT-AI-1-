@@ -97,24 +97,6 @@ class RagLlmService {
     }
   }
 
-  async healthCheck() {
-    try {
-      // Try to make a simple request to check if service is alive
-      const response = await axios.get(`${ragLlmConfig.baseUrl}/health`, {
-        timeout: 5000
-      });
-      return true;
-    } catch (error) {
-      // If /health doesn't exist, try root endpoint
-      try {
-        await axios.get(ragLlmConfig.baseUrl, { timeout: 5000 });
-        return true;
-      } catch (fallbackError) {
-        logger.warn('RAG-LLM service health check failed:', fallbackError.message);
-        return false;
-      }
-    }
-  }
 
   async getServiceInfo() {
     try {

@@ -8,7 +8,6 @@ const chatRoutes = require('./chatRoutes');
 const userRoutes = require('./userRoutes');
 const imageRoutes = require('./imageRoutes');
 const queryRoutes = require('./queryRoutes');
-const healthController = require('../controllers/healthController');
 
 // Mount routes
 router.use('/api/auth', authRoutes);
@@ -17,8 +16,6 @@ router.use('/api/users', userRoutes);
 router.use('/api/images', imageRoutes);
 router.use('/api/query', queryRoutes);
 
-// Health check endpoint
-router.get('/health', healthController.healthCheck);
 
 // API info endpoint
 router.get('/api', (req, res) => {
@@ -32,7 +29,6 @@ router.get('/api', (req, res) => {
       users: '/api/users/*',
       images: '/api/images/*',
       query: '/api/query/*',
-      health: '/health'
     },
     documentation: 'https://github.com/your-repo/floatchat-backend'
   });
