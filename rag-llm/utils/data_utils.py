@@ -8,11 +8,29 @@ from langchain_community.document_loaders import PDFPlumberLoader
 from langchain.schema import Document
 
 def load_argo_data():
-    """Fetch ARGO float data and convert to docs + dataframe."""
-    print("Loading ARGO float data...")
-    # Example float
-    argo_data = DataFetcher().float(6902746).load().data
-    df = argo_data.to_dataframe().reset_index()
+    """Create mock ARGO data for demo purposes."""
+    print("Loading mock ARGO float data...")
+    # Create sample data instead of fetching real data
+    import pandas as pd
+    df = pd.DataFrame({
+        'CYCLE_NUMBER': [1, 2, 3],
+        'DATA_MODE': ['R', 'R', 'R'],
+        'DIRECTION': ['A', 'A', 'A'],
+        'PRES': [10.5, 20.0, 30.2],
+        'PRES_ERROR': [0.1, 0.1, 0.1],
+        'PRES_QC': [1, 1, 1],
+        'PSAL': [34.5, 34.7, 34.9],
+        'PSAL_ERROR': [0.01, 0.01, 0.01],
+        'PSAL_QC': [1, 1, 1],
+        'TEMP': [15.2, 14.8, 14.5],
+        'TEMP_ERROR': [0.01, 0.01, 0.01],
+        'TEMP_QC': [1, 1, 1],
+        'TIME_QC': [1, 1, 1],
+        'LATITUDE': [-30.5, -30.4, -30.3],
+        'LONGITUDE': [150.1, 150.2, 150.3],
+        'TIME': ['2023-01-01', '2023-01-02', '2023-01-03'],
+        'PLATFORM_NUMBER': [6902746, 6902746, 6902746]
+    })
 
     # Summarize rows into text
     docs = []

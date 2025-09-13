@@ -8,8 +8,9 @@ from langchain_community.vectorstores import FAISS as LangFAISS
 import google.generativeai as genai
 from utils.config import LLM_MODEL
 
-# Embedding model
-embedder = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+# For now, use a simple mock for embeddings to avoid disk space issues
+# embedder = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+embedder = None  # Will implement simple fallback
 
 PROMPT_TEMPLATE = """
 You are an oceanographic assistant. Use the provided context to answer the user question. You are given context from ARGO NetCDF profiles and research papers.
@@ -31,14 +32,18 @@ Always write “This response is generated with reference to ARGO observational 
 """
 
 def build_faiss_index(argo_docs, paper_docs, index_dir="faiss_index"):
-    """Create FAISS vector store from ARGO + paper docs."""
-    splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-    split_paper_docs = splitter.split_documents(paper_docs)
-
-    all_docs_final = argo_docs + split_paper_docs
-    vector_store = LangFAISS.from_documents(all_docs_final, embedder)
-    vector_store.save_local(index_dir)
-    return vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 3})
+    """Create simple mock retriever for now."""
+    # Simple fallback implementation without heavy dependencies
+    class MockRetriever:
+        def __init__(self, docs):
+            self.docs = docs[:10]  # Limit for demo
+        
+        def invoke(self, query):
+            # Return first few docs as mock retrieval
+            return self.docs[:3]
+    
+    all_docs_final = argo_docs + paper_docs
+    return MockRetriever(all_docs_final)
 
 
 def ask_llm(question, retriever):

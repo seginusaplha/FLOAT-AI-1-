@@ -22,6 +22,10 @@ args = "FloatChat Backend"
 task = "workflow.run"
 args = "FloatChat Frontend"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "RAG LLM Service"
+
 [[workflows.workflow]]
 name = "FloatChat Backend"
 author = "agent"
@@ -38,13 +42,25 @@ outputType = "console"
 name = "FloatChat Frontend"
 author = "agent"
 
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd floatchat-frontend && npm run dev"
 waitForPort = 5000
 
+[[workflows.workflow]]
+name = "RAG LLM Service"
+author = "agent"
+
 [workflows.workflow.metadata]
-outputType = "webview"
+outputType = "console"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd rag-llm && python simple_app.py"
+waitForPort = 8000
 
 [[ports]]
 localPort = 3000
@@ -55,5 +71,10 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 43585
-externalPort = 3001
+localPort = 8000
+externalPort = 8000
+exposeLocalhost = true
+
+[[ports]]
+localPort = 43835
+externalPort = 3002
